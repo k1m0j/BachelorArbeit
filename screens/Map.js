@@ -4,13 +4,24 @@ import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import SearchBar from "../components/ui/SearchBar";
 
 function Map() {
+  const initialRegion = {
+    latitude: 52.520008,
+    longitude: 13.404954,
+    latitudeDelta: 0.2,
+    longitudeDelta: 0.15,
+  };
+
   function onSumbitLocationHandler(location) {
     console.log(location);
   }
 
   return (
     <View style={styles.container}>
-      <MapView style={styles.map} provider={PROVIDER_GOOGLE} />
+      <MapView
+        style={styles.map}
+        provider={PROVIDER_GOOGLE}
+        initialRegion={initialRegion}
+      />
       <View style={styles.searchBarContainer}>
         <SearchBar onSubmit={onSumbitLocationHandler}></SearchBar>
       </View>
