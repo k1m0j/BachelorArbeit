@@ -7,7 +7,9 @@ function Map() {
   return (
     <View style={styles.container}>
       <MapView style={styles.map} provider={PROVIDER_GOOGLE} />
-      <SearchBar></SearchBar>
+      <View style={styles.searchBarContainer}>
+        <SearchBar></SearchBar>
+      </View>
     </View>
   );
 }
@@ -19,7 +21,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   map: {
-    width: "100%",
     height: "100%",
+  },
+  searchBarContainer: {
+    width: "100%",
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

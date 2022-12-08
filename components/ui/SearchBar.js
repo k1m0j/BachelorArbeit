@@ -19,22 +19,22 @@ export default SearchBar;
 
 const styles = StyleSheet.create({
   container: {
-    width: "80%",
-    borderWidth: 1,
+    width: "90%",
+    borderWidth: 1.5,
     borderRadius: 20,
-    marginVertical: 6,
+    marginVertical: 12,
     marginHorizontal: 12,
     paddingVertical: 6,
     paddingHorizontal: 16,
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "white",
-    position: "absolute",
-    right: 0,
-    top: 0,
   },
   input: {
     flex: 1,
+    fontSize: 16,
   },
-  icon: {},
+  icon: {
+    paddingRight: 6,
+  },
 });
