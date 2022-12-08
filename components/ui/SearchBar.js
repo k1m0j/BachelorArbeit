@@ -1,7 +1,14 @@
+import { useState } from "react";
 import { TextInput, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-function SearchBar() {
+function SearchBar({ onSubmit }) {
+  const [enteredText, setEnteredText] = useState("");
+
+  function onSubmitHandler() {
+    onSubmit(enteredText);
+  }
+
   return (
     <View style={styles.container}>
       <Ionicons
@@ -10,7 +17,12 @@ function SearchBar() {
         size={16}
         color="black"
       ></Ionicons>
-      <TextInput style={styles.input}></TextInput>
+      <TextInput
+        style={styles.input}
+        value={enteredText}
+        onChangeText={(changedText) => setEnteredText(changedText)}
+        onSubmitEditing={onSubmitHandler}
+      ></TextInput>
     </View>
   );
 }
