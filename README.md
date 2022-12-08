@@ -1,1 +1,1 @@
-#App der Bachelor Arbeit von Karl Schulz
+# App der Bachelor Arbeit von Karl Schulz
