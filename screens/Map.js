@@ -2,6 +2,7 @@ import { StyleSheet, View } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 
 import SearchBar from "../components/ui/SearchBar";
+import { getCoordinates } from "../util/location";
 
 function Map() {
   const initialRegion = {
@@ -12,7 +13,7 @@ function Map() {
   };
 
   function onSumbitLocationHandler(location) {
-    console.log(location);
+    getCoordinates(location);
   }
 
   return (
