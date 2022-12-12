@@ -1,10 +1,15 @@
+import { useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 
 import SearchBar from "../components/ui/SearchBar";
 import { getCoordinates } from "../util/location";
 
 function Map() {
+  const [markerCoordinates, setMarkerCoordinates] = useState();
+
+  const mapView = useRef();
+
   const initialRegion = {
     latitude: 52.520008,
     longitude: 13.404954,
@@ -12,17 +17,41 @@ function Map() {
     longitudeDelta: 0.15,
   };
 
-  function onSumbitLocationHandler(location) {
-    getCoordinates(location);
+  async function onSumbitLocationHandler(location) {
+    const coordinates = await getCoordinates(location);
+
+    setMarkerCoordinates({
+      latitude: coordinates.lat,
+      longitude: coordinates.lng,
+    });
+
+    mapView.current.animateToRegion(
+      {
+        latitude: coordinates.lat,
+        longitude: coordinates.lng,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.005,
+      },
+      1000
+    );
   }
 
   return (
     <View style={styles.container}>
       <MapView
+        ref={mapView}
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         initialRegion={initialRegion}
-      />
+      >
+        {markerCoordinates && (
+          <Marker
+            coordinate={markerCoordinates}
+            title="Test"
+            description="Hallo das geht aber gut!"
+          ></Marker>
+        )}
+      </MapView>
       <View style={styles.searchBarContainer}>
         <SearchBar onSubmit={onSumbitLocationHandler}></SearchBar>
       </View>
