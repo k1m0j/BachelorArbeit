@@ -6,6 +6,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 import Map from "./screens/Map";
 import SavedRoutes from "./screens/SavedRouted";
+import AddRoute from "./screens/AddRoute";
 
 const Tab = createBottomTabNavigator();
 
@@ -25,6 +26,15 @@ export default function App() {
                   size={size}
                   color={color}
                 ></Ionicons>
+              ),
+            }}
+          ></Tab.Screen>
+          <Tab.Screen
+            name="Add Route"
+            component={AddRoute}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="add" size={size} color={color}></Ionicons>
               ),
             }}
           ></Tab.Screen>
