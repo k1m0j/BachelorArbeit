@@ -15,8 +15,8 @@ function Map() {
   const initialRegion = {
     latitude: 52.520008,
     longitude: 13.404954,
-    latitudeDelta: 0.2,
-    longitudeDelta: 0.15,
+    latitudeDelta: 0.15,
+    longitudeDelta: 0.1,
   };
 
   async function onSumbitLocationHandler(location) {
@@ -50,6 +50,9 @@ function Map() {
           origin={"Carl Herz Ufer"}
           destination={"Der andere Spieleladen"}
           apikey={GOOGLE_API_KEY}
+          mode="BICYCLING"
+          strokeWidth={3}
+          strokeColor="blue"
         />
         {markerCoordinates && (
           <Marker
