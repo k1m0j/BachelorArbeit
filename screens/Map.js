@@ -1,8 +1,10 @@
 import { useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapViewDirections from "react-native-maps-directions";
 
 import SearchBar from "../components/ui/SearchBar";
+import { GOOGLE_API_KEY } from "../constants/constants";
 import { getCoordinates } from "../util/location";
 
 function Map() {
@@ -44,6 +46,11 @@ function Map() {
         provider={PROVIDER_GOOGLE}
         initialRegion={initialRegion}
       >
+        <MapViewDirections
+          origin={"Carl Herz Ufer"}
+          destination={"Der andere Spieleladen"}
+          apikey={GOOGLE_API_KEY}
+        />
         {markerCoordinates && (
           <Marker
             coordinate={markerCoordinates}
