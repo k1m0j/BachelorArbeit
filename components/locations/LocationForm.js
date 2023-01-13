@@ -1,26 +1,45 @@
 import { StyleSheet, Text, Image, TextInput, View } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { getCoordinates, getMapPreview } from "../../util/location";
 
 function LocationForm({ type }) {
-  const [pickedLocation, setPickedLocation] = useState("");
+  const [locationName, setLocationName] = useState();
+  const [pickedLocation, setPickedLocation] = useState();
 
   let locationPreview = <Text>No {type} picked yet.</Text>;
+
+  async function onSumbitLocationHandler() {
+    const coordinates = await getCoordinates(locationName);
+
+    setPickedLocation({
+      latitude: coordinates.lat,
+      longitude: coordinates.lng,
+    });
+  }
+
+  //useEffect(() => {}, [locationPreview]);
 
   if (pickedLocation) {
     locationPreview = (
       <Image
         style={styles.image}
         source={{
-          uri: getMapPreview(1, 1),
+          uri: getMapPreview(pickedLocation.latitude, pickedLocation.longitude),
         }}
       ></Image>
     );
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.label}>Choose {type}</Text>
-      <TextInput style={styles.input}></TextInput>
+      <TextInput
+        style={styles.input}
+        onSubmitEditing={onSumbitLocationHandler}
+        value={locationName}
+        onChangeText={(changedText) => setLocationName(changedText)}
+      ></TextInput>
       <View style={styles.locationPreview}>{locationPreview}</View>
     </View>
   );
@@ -29,6 +48,9 @@ function LocationForm({ type }) {
 export default LocationForm;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   locationPreview: {
     width: "100%",
     height: 200,
@@ -38,6 +60,10 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderWidth: 2,
   },
-  label: { fontWeight: "bold" },
+  image: {
+    height: "100%",
+    width: "100%",
+  },
+  label: { fontWeight: "bold", marginBottom: 4 },
   input: { backgroundColor: "white" },
 });

@@ -1,5 +1,6 @@
-import { Button, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
+import Button from "../components/ui/Button";
 import LocationForm from "../components/locations/LocationForm";
 
 function AddRoute() {
@@ -7,7 +8,7 @@ function AddRoute() {
     <View style={styles.container}>
       <LocationForm type={"Starting Point"}></LocationForm>
       <LocationForm type={"Destination"}></LocationForm>
-      <Button title="Confirm Locations"></Button>
+      <Button>Confirm Locations</Button>
     </View>
   );
 }
@@ -17,6 +18,6 @@ export default AddRoute;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 18,
+    padding: 20,
   },
 });
