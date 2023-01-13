@@ -7,8 +7,11 @@ import SearchBar from "../components/ui/SearchBar";
 import { GOOGLE_API_KEY } from "../constants/constants";
 import { getCoordinates } from "../util/location";
 
-function Map() {
-  const [markerCoordinates, setMarkerCoordinates] = useState();
+function Map({ route }) {
+  const [startingPointMarker, setStartingPointMarker] = useState();
+  const [destinationMarker, setDestinationMarker] = useState();
+
+  console.log(route.params);
 
   const mapView = useRef();
 
@@ -22,7 +25,7 @@ function Map() {
   async function onSumbitLocationHandler(location) {
     const coordinates = await getCoordinates(location);
 
-    setMarkerCoordinates({
+    setStartingPointMarker({
       latitude: coordinates.lat,
       longitude: coordinates.lng,
     });
@@ -47,24 +50,27 @@ function Map() {
         initialRegion={initialRegion}
       >
         <MapViewDirections
-          origin={"Carl Herz Ufer"}
-          destination={"Der andere Spieleladen"}
+          origin={route.params.startingPoint}
+          destination={route.params.destination}
           apikey={GOOGLE_API_KEY}
           mode="BICYCLING"
           strokeWidth={3}
           strokeColor="blue"
         />
-        {markerCoordinates && (
-          <Marker
-            coordinate={markerCoordinates}
-            title="Test"
-            description="Hallo das geht aber gut!"
-          ></Marker>
-        )}
+        <Marker
+          coordinate={route.params.startingPoint}
+          title="Test"
+          description="Hallo das geht aber gut!"
+        ></Marker>
+        <Marker
+          coordinate={route.params.destination}
+          title="Test"
+          description="Hallo das geht aber gut!"
+        ></Marker>
       </MapView>
-      <View style={styles.searchBarContainer}>
+      {/* <View style={styles.searchBarContainer}>
         <SearchBar onSubmit={onSumbitLocationHandler}></SearchBar>
-      </View>
+      </View> */}
     </View>
   );
 }
@@ -78,10 +84,10 @@ const styles = StyleSheet.create({
   map: {
     height: "100%",
   },
-  searchBarContainer: {
-    width: "100%",
-    position: "absolute",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+  // searchBarContainer: {
+  //   width: "100%",
+  //   position: "absolute",
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  // },
 });

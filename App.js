@@ -17,6 +17,15 @@ export default function App() {
       <NavigationContainer>
         <Tab.Navigator>
           <Tab.Screen
+            name="Add Route"
+            component={AddRoute}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="add" size={size} color={color}></Ionicons>
+              ),
+            }}
+          ></Tab.Screen>
+          <Tab.Screen
             name="Map"
             component={Map}
             options={{
@@ -26,15 +35,6 @@ export default function App() {
                   size={size}
                   color={color}
                 ></Ionicons>
-              ),
-            }}
-          ></Tab.Screen>
-          <Tab.Screen
-            name="Add Route"
-            component={AddRoute}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="add" size={size} color={color}></Ionicons>
               ),
             }}
           ></Tab.Screen>

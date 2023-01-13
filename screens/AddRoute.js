@@ -2,13 +2,35 @@ import { StyleSheet, View } from "react-native";
 
 import Button from "../components/ui/Button";
 import LocationForm from "../components/locations/LocationForm";
+import { useState } from "react";
 
-function AddRoute() {
+function AddRoute({ navigation }) {
+  const [startingPoint, setStartingPoint] = useState();
+  const [destination, setDestination] = useState();
+
+  function onSubmitLocationForm(type, location) {
+    if (type === "Starting Point") {
+      setStartingPoint(location);
+    } else {
+      setDestination(location);
+    }
+  }
+
+  function onSubmitRoute() {
+    navigation.navigate("Map", { startingPoint, destination });
+  }
+
   return (
     <View style={styles.container}>
-      <LocationForm type={"Starting Point"}></LocationForm>
-      <LocationForm type={"Destination"}></LocationForm>
-      <Button>Confirm Locations</Button>
+      <LocationForm
+        type={"Starting Point"}
+        onSubmit={onSubmitLocationForm}
+      ></LocationForm>
+      <LocationForm
+        type={"Destination"}
+        onSubmit={onSubmitLocationForm}
+      ></LocationForm>
+      <Button onPress={onSubmitRoute}>Confirm Locations</Button>
     </View>
   );
 }

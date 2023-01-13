@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { getCoordinates, getMapPreview } from "../../util/location";
 
-function LocationForm({ type }) {
+function LocationForm({ type, onSubmit }) {
   const [locationName, setLocationName] = useState();
   const [pickedLocation, setPickedLocation] = useState();
 
@@ -12,10 +12,14 @@ function LocationForm({ type }) {
   async function onSumbitLocationHandler() {
     const coordinates = await getCoordinates(locationName);
 
-    setPickedLocation({
+    const formattedCoordinates = {
       latitude: coordinates.lat,
       longitude: coordinates.lng,
-    });
+    };
+
+    setPickedLocation(formattedCoordinates);
+
+    onSubmit(type, formattedCoordinates);
   }
 
   //useEffect(() => {}, [locationPreview]);
