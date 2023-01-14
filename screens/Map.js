@@ -1,18 +1,12 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
+import IconButton from "../components/ui/IconButton";
 
-import SearchBar from "../components/ui/SearchBar";
 import { GOOGLE_API_KEY } from "../constants/constants";
-import { getCoordinates } from "../util/location";
 
-function Map({ route }) {
-  const [startingPointMarker, setStartingPointMarker] = useState();
-  const [destinationMarker, setDestinationMarker] = useState();
-
-  console.log(route.params);
-
+function Map({ navigation, route }) {
   const mapView = useRef();
 
   const initialRegion = {
@@ -22,24 +16,20 @@ function Map({ route }) {
     longitudeDelta: 0.1,
   };
 
-  // async function onSumbitLocationHandler(location) {
-  //   const coordinates = await getCoordinates(location);
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: ({ tintColor }) => (
+        <IconButton
+          icon="save"
+          color={tintColor}
+          size={20}
+          onPress={saveRoute}
+        ></IconButton>
+      ),
+    });
+  }, [navigation]);
 
-  //   setStartingPointMarker({
-  //     latitude: coordinates.lat,
-  //     longitude: coordinates.lng,
-  //   });
-
-  //   mapView.current.animateToRegion(
-  //     {
-  //       latitude: coordinates.lat,
-  //       longitude: coordinates.lng,
-  //       latitudeDelta: 0.01,
-  //       longitudeDelta: 0.005,
-  //     },
-  //     1000
-  //   );
-  // }
+  function saveRoute() {}
 
   return (
     <View style={styles.container}>
@@ -68,9 +58,6 @@ function Map({ route }) {
           description="Hallo das geht aber gut!"
         ></Marker>
       </MapView>
-      {/* <View style={styles.searchBarContainer}>
-        <SearchBar onSubmit={onSumbitLocationHandler}></SearchBar>
-      </View> */}
     </View>
   );
 }
@@ -84,10 +71,4 @@ const styles = StyleSheet.create({
   map: {
     height: "100%",
   },
-  // searchBarContainer: {
-  //   width: "100%",
-  //   position: "absolute",
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  // },
 });
