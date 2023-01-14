@@ -30,7 +30,7 @@ function AddRoute({ navigation }) {
         type={"Destination"}
         onSubmit={onSubmitLocationForm}
       ></LocationForm>
-      <Button onPress={onSubmitRoute}>Confirm Locations</Button>
+      <Button onPress={onSubmitRoute}>Calculate Route</Button>
     </View>
   );
 }

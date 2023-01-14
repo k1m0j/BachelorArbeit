@@ -22,24 +22,24 @@ function Map({ route }) {
     longitudeDelta: 0.1,
   };
 
-  async function onSumbitLocationHandler(location) {
-    const coordinates = await getCoordinates(location);
+  // async function onSumbitLocationHandler(location) {
+  //   const coordinates = await getCoordinates(location);
 
-    setStartingPointMarker({
-      latitude: coordinates.lat,
-      longitude: coordinates.lng,
-    });
+  //   setStartingPointMarker({
+  //     latitude: coordinates.lat,
+  //     longitude: coordinates.lng,
+  //   });
 
-    mapView.current.animateToRegion(
-      {
-        latitude: coordinates.lat,
-        longitude: coordinates.lng,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.005,
-      },
-      1000
-    );
-  }
+  //   mapView.current.animateToRegion(
+  //     {
+  //       latitude: coordinates.lat,
+  //       longitude: coordinates.lng,
+  //       latitudeDelta: 0.01,
+  //       longitudeDelta: 0.005,
+  //     },
+  //     1000
+  //   );
+  // }
 
   return (
     <View style={styles.container}>
@@ -54,8 +54,8 @@ function Map({ route }) {
           destination={route.params.destination}
           apikey={GOOGLE_API_KEY}
           mode="BICYCLING"
-          strokeWidth={3}
-          strokeColor="blue"
+          strokeWidth={5}
+          strokeColor="green"
         />
         <Marker
           coordinate={route.params.startingPoint}
