@@ -1,8 +1,8 @@
 import { StyleSheet, View } from "react-native";
+import { useState } from "react";
 
 import Button from "../components/ui/Button";
 import LocationForm from "../components/locations/LocationForm";
-import { useState } from "react";
 
 function AddRoute({ navigation }) {
   const [startingPoint, setStartingPoint] = useState();

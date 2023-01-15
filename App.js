@@ -8,6 +8,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Map from "./screens/Map";
 import SavedRoutes from "./screens/SavedRouted";
 import AddRoute from "./screens/AddRoute";
+import RoutesContextProvider from "./store/routes-context";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -42,16 +43,18 @@ export default function App() {
   return (
     <>
       <StatusBar style="auto"></StatusBar>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Home"
-            component={Home}
-            options={{ headerShown: false }}
-          ></Stack.Screen>
-          <Stack.Screen name="Map" component={Map}></Stack.Screen>
-        </Stack.Navigator>
-      </NavigationContainer>
+      <RoutesContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Home"
+              component={Home}
+              options={{ headerShown: false }}
+            ></Stack.Screen>
+            <Stack.Screen name="Map" component={Map}></Stack.Screen>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </RoutesContextProvider>
     </>
   );
 }
