@@ -7,8 +7,6 @@ function LocationForm({ type, onSubmit }) {
   const [locationName, setLocationName] = useState();
   const [pickedLocation, setPickedLocation] = useState();
 
-  let locationPreview = <Text>No {type} picked yet.</Text>;
-
   async function onSumbitLocationHandler() {
     const coordinates = await getCoordinates(locationName);
 
@@ -19,10 +17,10 @@ function LocationForm({ type, onSubmit }) {
 
     setPickedLocation(formattedCoordinates);
 
-    onSubmit(type, formattedCoordinates);
+    onSubmit(type, { locationName, coordinates: formattedCoordinates });
   }
 
-  //useEffect(() => {}, [locationPreview]);
+  let locationPreview = <Text>No {type} picked yet.</Text>;
 
   if (pickedLocation) {
     locationPreview = (

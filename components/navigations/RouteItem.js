@@ -14,7 +14,9 @@ function RouteItem({ id, startingPoint, destination }) {
       onPress={routePressHandler}
     >
       <View style={styles.routeItem}>
-        <Text>Item {id}</Text>
+        <Text>
+          From {startingPoint.locationName} to {destination.locationName}
+        </Text>
       </View>
     </Pressable>
   );
