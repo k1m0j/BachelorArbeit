@@ -1,16 +1,12 @@
 import { useContext } from "react";
-import { Text, View } from "react-native";
+import RoutesList from "../components/navigations/RoutesList";
 
 import { RoutesContext } from "../store/routes-context";
 
 function SavedRoutes() {
   const routesCtx = useContext(RoutesContext);
 
-  return (
-    <View>
-      <Text>This will be the SavedRoutes Screen</Text>
-    </View>
-  );
+  return <RoutesList routes={routesCtx.routes}></RoutesList>;
 }
 
 export default SavedRoutes;
