@@ -66,6 +66,15 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
   },
-  label: { fontWeight: "bold", marginBottom: 4 },
-  input: { backgroundColor: "white" },
+  label: {
+    fontWeight: "bold",
+    fontSize: 16,
+    marginBottom: 8,
+  },
+  input: {
+    backgroundColor: "white",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 12,
+  },
 });

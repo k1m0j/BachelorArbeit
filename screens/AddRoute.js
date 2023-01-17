@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import { useState } from "react";
 
 import Button from "../components/ui/Button";
@@ -17,7 +17,20 @@ function AddRoute({ navigation }) {
   }
 
   function onSubmitRoute() {
-    navigation.navigate("Map", { startingPoint, destination });
+    if (startingPoint && destination) {
+      navigation.navigate("Map", { startingPoint, destination });
+    } else {
+      Alert.alert(
+        "Invalid Input",
+        "Please check if you have entered a valid starting point and destination.",
+        [
+          {
+            text: "Okay",
+            style: "default",
+          },
+        ]
+      );
+    }
   }
 
   return (

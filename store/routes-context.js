@@ -11,14 +11,12 @@ function RoutesContextProvider({ children }) {
     {
       id: 1,
       startingPoint: {
-        locationName: "Dummy",
-        latitude: 52.52000659999999,
-        longitude: 13.404954,
+        locationName: "Carl Herz Ufer 25",
+        coordinates: { latitude: 52.52000659999999, longitude: 13.404954 },
       },
       destination: {
-        locationName: "Data",
-        latitude: 52.5504827,
-        longitude: 13.3519841,
+        locationName: "Wedding",
+        coordinates: { latitude: 52.5504827, longitude: 13.3519841 },
       },
     },
   ]);

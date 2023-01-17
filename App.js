@@ -15,11 +15,13 @@ const Stack = createNativeStackNavigator();
 
 function Home() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={{ headerTintColor: "green" }}>
       <Tab.Screen
-        name="Add Route"
+        name="AddRoute"
         component={AddRoute}
         options={{
+          title: "Add Route",
+          tabBarActiveTintColor: "green",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="add" size={size} color={color}></Ionicons>
           ),
@@ -30,6 +32,7 @@ function Home() {
         component={SavedRoutes}
         options={{
           title: "Saved Routes",
+          tabBarActiveTintColor: "green",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="save-outline" size={size} color={color}></Ionicons>
           ),
@@ -45,7 +48,7 @@ export default function App() {
       <StatusBar style="auto"></StatusBar>
       <RoutesContextProvider>
         <NavigationContainer>
-          <Stack.Navigator>
+          <Stack.Navigator screenOptions={{ headerTintColor: "green" }}>
             <Stack.Screen
               name="Home"
               component={Home}

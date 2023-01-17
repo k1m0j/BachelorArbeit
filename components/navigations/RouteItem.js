@@ -15,7 +15,13 @@ function RouteItem({ id, startingPoint, destination }) {
     >
       <View style={styles.routeItem}>
         <Text>
-          From {startingPoint.locationName} to {destination.locationName}
+          From
+          <Text style={styles.locationName}>
+            {" "}
+            {startingPoint.locationName}{" "}
+          </Text>
+          to
+          <Text style={styles.locationName}> {destination.locationName}</Text>
         </Text>
       </View>
     </Pressable>
@@ -30,5 +36,8 @@ const styles = StyleSheet.create({
     padding: 12,
     marginVertical: 8,
     backgroundColor: "white",
+  },
+  locationName: {
+    fontWeight: "bold",
   },
 });
