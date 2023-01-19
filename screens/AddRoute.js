@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, View } from "react-native";
+import { Alert, Keyboard, ScrollView, StyleSheet, View } from "react-native";
 import { useState } from "react";
 
 import Button from "../components/ui/Button";
@@ -37,15 +37,17 @@ function AddRoute({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <LocationForm
-        type={"Starting Point"}
-        onSubmit={onSubmitLocationForm}
-      ></LocationForm>
-      <LocationForm
-        type={"Destination"}
-        onSubmit={onSubmitLocationForm}
-      ></LocationForm>
-      <Button onPress={onSubmitRoute}>Calculate Route</Button>
+      <ScrollView onPress={Keyboard.dismiss}>
+        <LocationForm
+          type={"Starting Point"}
+          onSubmit={onSubmitLocationForm}
+        ></LocationForm>
+        <LocationForm
+          type={"Destination"}
+          onSubmit={onSubmitLocationForm}
+        ></LocationForm>
+        <Button onPress={onSubmitRoute}>Calculate Route</Button>
+      </ScrollView>
     </View>
   );
 }
