@@ -7,6 +7,7 @@ import RouteInfo from "../components/map/RouteInfo";
 import IconButton from "../components/ui/IconButton";
 import { GOOGLE_API_KEY } from "../constants/constants";
 import { RoutesContext } from "../store/routes-context";
+import Button from "../components/ui/Button";
 
 function Map({ navigation, route }) {
   const mapView = useRef();
@@ -76,6 +77,7 @@ function Map({ navigation, route }) {
           strokeWidth={5}
           strokeColor="green"
           onReady={(result) => {
+            //console.log(result.legs[0].steps);
             setPickedRoute({
               ...pickedRoute,
               duration: result.legs[0].duration.text,
@@ -96,6 +98,9 @@ function Map({ navigation, route }) {
           description="This is your destination."
         ></Marker>
       </MapView>
+      <View>
+        <Button>Start Navigation</Button>
+      </View>
     </View>
   );
 }
@@ -107,6 +112,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   map: {
-    height: "100%",
+    //height: "100%",
+    flex: 1,
   },
 });
