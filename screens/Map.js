@@ -1,10 +1,10 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, PixelRatio } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
+
 import RouteInfo from "../components/map/RouteInfo";
 import IconButton from "../components/ui/IconButton";
-
 import { GOOGLE_API_KEY } from "../constants/constants";
 import { RoutesContext } from "../store/routes-context";
 
@@ -19,6 +19,26 @@ function Map({ navigation, route }) {
     latitudeDelta: 0.15,
     longitudeDelta: 0.1,
   };
+
+  const iosEdgePadding = { top: 100, right: 50, bottom: 100, left: 50 };
+
+  const androidEdgePadding = {
+    top: PixelRatio.getPixelSizeForLayoutSize(iosEdgePadding.top),
+    right: PixelRatio.getPixelSizeForLayoutSize(iosEdgePadding.right),
+    bottom: PixelRatio.getPixelSizeForLayoutSize(iosEdgePadding.bottom),
+    left: PixelRatio.getPixelSizeForLayoutSize(iosEdgePadding.left),
+  };
+
+  function onLayoutHandler() {
+    const options = {
+      edgePadding:
+        Platform.OS === "android" ? androidEdgePadding : iosEdgePadding,
+    };
+    mapView.current.fitToSuppliedMarkers(
+      ["startingPoint", "destination"],
+      options
+    );
+  }
 
   useEffect(() => {
     navigation.setOptions({
@@ -46,6 +66,7 @@ function Map({ navigation, route }) {
         provider={PROVIDER_GOOGLE}
         initialRegion={initialRegion}
         showsUserLocation={true}
+        onLayout={onLayoutHandler}
       >
         <MapViewDirections
           origin={pickedRoute.startingPoint.coordinates}
@@ -63,11 +84,13 @@ function Map({ navigation, route }) {
           }}
         />
         <Marker
+          identifier="startingPoint"
           coordinate={pickedRoute.startingPoint.coordinates}
           title={pickedRoute.startingPoint.locationName}
           description="This is your starting point."
         ></Marker>
         <Marker
+          identifier="destination"
           coordinate={pickedRoute.destination.coordinates}
           title={pickedRoute.destination.locationName}
           description="This is your destination."
