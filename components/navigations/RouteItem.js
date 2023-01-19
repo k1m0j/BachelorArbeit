@@ -5,7 +5,7 @@ function RouteItem({ id, startingPoint, destination }) {
   const navigation = useNavigation();
 
   function routePressHandler() {
-    navigation.navigate("Map", { startingPoint, destination });
+    navigation.navigate("Map", { pickedRoute: { startingPoint, destination } });
   }
 
   return (

@@ -18,7 +18,9 @@ function AddRoute({ navigation }) {
 
   function onSubmitRoute() {
     if (startingPoint && destination) {
-      navigation.navigate("Map", { startingPoint, destination });
+      navigation.navigate("Map", {
+        pickedRoute: { startingPoint, destination },
+      });
     } else {
       Alert.alert(
         "Invalid Input",

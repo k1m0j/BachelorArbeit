@@ -11,7 +11,7 @@ import { RoutesContext } from "../store/routes-context";
 function Map({ navigation, route }) {
   const mapView = useRef();
   const routesCtx = useContext(RoutesContext);
-  const [pickedRoute, setPickedRoute] = useState(route.params);
+  const [pickedRoute, setPickedRoute] = useState(route.params.pickedRoute);
 
   const initialRegion = {
     latitude: 52.520008,
@@ -45,6 +45,7 @@ function Map({ navigation, route }) {
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         initialRegion={initialRegion}
+        showsUserLocation={true}
       >
         <MapViewDirections
           origin={pickedRoute.startingPoint.coordinates}

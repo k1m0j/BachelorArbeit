@@ -25,7 +25,7 @@ function RouteInfo({ pickedRoute }) {
         <View style={styles.innerLowerContainer}>
           <Text>{pickedRoute.duration}</Text>
         </View>
-        <View style={styles.innerLowerContainer}>
+        <View style={[styles.innerLowerContainer, { borderRightWidth: 0 }]}>
           <Text>{pickedRoute.distance}</Text>
         </View>
       </View>
@@ -46,13 +46,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 12,
-    borderWidth: 1,
+    borderBottomWidth: 1,
+    //borderWidth: 1,
   },
   innerLowerContainer: {
     padding: 6,
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 1,
+    //borderWidth: 1,
+    borderRightWidth: 1,
+    borderBottomWidth: 2,
     flex: 1,
   },
   lowerContainer: {
