@@ -8,10 +8,13 @@ import IconButton from "../components/ui/IconButton";
 import { GOOGLE_API_KEY } from "../constants/constants";
 import { RoutesContext } from "../store/routes-context";
 import Button from "../components/ui/Button";
+import DirectionsList from "../components/map/DirectionsList";
+import { addIncreasingIDsToArray } from "../util/util";
 
 function Map({ navigation, route }) {
   const [pickedRoute, setPickedRoute] = useState(route.params.pickedRoute);
   const [isNavigationStarted, setIsNavigationStarted] = useState(false);
+  const [directions, setDirections] = useState([]);
 
   const routesCtx = useContext(RoutesContext);
 
@@ -79,6 +82,7 @@ function Map({ navigation, route }) {
         provider={PROVIDER_GOOGLE}
         initialRegion={initialRegion}
         showsUserLocation={true}
+        rotateEnabled={true}
         onLayout={onLayoutHandler}
         onUserLocationChange={(locationChangedResult) => {
           if (isNavigationStarted) {
@@ -99,6 +103,7 @@ function Map({ navigation, route }) {
           strokeWidth={5}
           strokeColor="green"
           onReady={(result) => {
+            setDirections(addIncreasingIDsToArray(result.legs[0].steps));
             setPickedRoute({
               ...pickedRoute,
               duration: result.legs[0].duration.text,
@@ -119,6 +124,11 @@ function Map({ navigation, route }) {
           description="This is your destination."
         ></Marker>
       </MapView>
+      {isNavigationStarted && (
+        <View style={styles.directionsContainer}>
+          <DirectionsList directions={directions}></DirectionsList>
+        </View>
+      )}
     </View>
   );
 }
@@ -137,5 +147,12 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomWidth: 1,
     backgroundColor: "white",
+  },
+  directionsContainer: {
+    height: "30%",
+    backgroundColor: "white",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderWidth: 1,
   },
 });

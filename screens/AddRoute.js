@@ -36,8 +36,8 @@ function AddRoute({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
-      <ScrollView onPress={Keyboard.dismiss}>
+    <ScrollView onPress={Keyboard.dismiss} style={styles.scrollView}>
+      <View style={styles.container}>
         <LocationForm
           type={"Starting Point"}
           onSubmit={onSubmitLocationForm}
@@ -47,16 +47,16 @@ function AddRoute({ navigation }) {
           onSubmit={onSubmitLocationForm}
         ></LocationForm>
         <Button onPress={onSubmitRoute}>Calculate Route</Button>
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 }
 
 export default AddRoute;
 
 const styles = StyleSheet.create({
+  scrollView: { flex: 1 },
   container: {
-    flex: 1,
     padding: 20,
   },
 });
