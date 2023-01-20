@@ -10,9 +10,12 @@ import { RoutesContext } from "../store/routes-context";
 import Button from "../components/ui/Button";
 
 function Map({ navigation, route }) {
-  const mapView = useRef();
-  const routesCtx = useContext(RoutesContext);
   const [pickedRoute, setPickedRoute] = useState(route.params.pickedRoute);
+  const [isNavigationStarted, setIsNavigationStarted] = useState(false);
+
+  const routesCtx = useContext(RoutesContext);
+
+  const mapView = useRef();
 
   const initialRegion = {
     latitude: 52.520008,
@@ -58,9 +61,18 @@ function Map({ navigation, route }) {
     routesCtx.addRoute({ ...pickedRoute, id: Date.now() });
   }
 
+  function onStartNavigationHandler() {
+    setIsNavigationStarted(true);
+  }
+
   return (
     <View style={styles.container}>
       <RouteInfo pickedRoute={pickedRoute}></RouteInfo>
+      {!isNavigationStarted && (
+        <View style={styles.buttonContainer}>
+          <Button onPress={onStartNavigationHandler}>Start Navigation</Button>
+        </View>
+      )}
       <MapView
         ref={mapView}
         style={styles.map}
@@ -68,6 +80,16 @@ function Map({ navigation, route }) {
         initialRegion={initialRegion}
         showsUserLocation={true}
         onLayout={onLayoutHandler}
+        onUserLocationChange={(locationChangedResult) => {
+          if (isNavigationStarted) {
+            mapView.current.animateToRegion({
+              latitude: locationChangedResult.nativeEvent.coordinate.latitude,
+              longitude: locationChangedResult.nativeEvent.coordinate.longitude,
+              latitudeDelta: 0.0,
+              longitudeDelta: 0.0025,
+            });
+          }
+        }}
       >
         <MapViewDirections
           origin={pickedRoute.startingPoint.coordinates}
@@ -77,7 +99,6 @@ function Map({ navigation, route }) {
           strokeWidth={5}
           strokeColor="green"
           onReady={(result) => {
-            //console.log(result.legs[0].steps);
             setPickedRoute({
               ...pickedRoute,
               duration: result.legs[0].duration.text,
@@ -98,9 +119,6 @@ function Map({ navigation, route }) {
           description="This is your destination."
         ></Marker>
       </MapView>
-      <View>
-        <Button>Start Navigation</Button>
-      </View>
     </View>
   );
 }
@@ -112,7 +130,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   map: {
-    //height: "100%",
     flex: 1,
+  },
+  buttonContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    backgroundColor: "white",
   },
 });

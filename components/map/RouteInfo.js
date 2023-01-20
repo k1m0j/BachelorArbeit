@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     //borderWidth: 1,
     borderRightWidth: 1,
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     flex: 1,
   },
   lowerContainer: {
