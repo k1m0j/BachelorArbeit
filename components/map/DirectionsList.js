@@ -1,10 +1,16 @@
 import { FlatList, StyleSheet } from "react-native";
+
 import DirectionItem from "./DirectionItem";
 
-function DirectionsList({ directions }) {
+function DirectionsList({ directions, currentWaypoint }) {
   function renderDirectionItem(itemData) {
-    console.log(itemData.item);
-    return <DirectionItem direction={itemData.item}></DirectionItem>;
+    let selected = currentWaypoint.id === itemData.item.id;
+    return (
+      <DirectionItem
+        direction={itemData.item}
+        selected={selected}
+      ></DirectionItem>
+    );
   }
 
   return (

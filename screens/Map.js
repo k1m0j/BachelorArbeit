@@ -5,16 +5,20 @@ import MapViewDirections from "react-native-maps-directions";
 
 import RouteInfo from "../components/map/RouteInfo";
 import IconButton from "../components/ui/IconButton";
-import { GOOGLE_API_KEY } from "../constants/constants";
+import { GOOGLE_API_KEY, minWaypointDistance } from "../constants/constants";
 import { RoutesContext } from "../store/routes-context";
 import Button from "../components/ui/Button";
 import DirectionsList from "../components/map/DirectionsList";
-import { addIncreasingIDsToArray } from "../util/util";
+import {
+  addIncreasingIDsToArray,
+  getDistanceFromLatLonInKm,
+} from "../util/util";
 
 function Map({ navigation, route }) {
   const [pickedRoute, setPickedRoute] = useState(route.params.pickedRoute);
   const [isNavigationStarted, setIsNavigationStarted] = useState(false);
   const [directions, setDirections] = useState([]);
+  const [currentWaypoint, setCurrentWaypoint] = useState();
 
   const routesCtx = useContext(RoutesContext);
 
@@ -85,13 +89,27 @@ function Map({ navigation, route }) {
         rotateEnabled={true}
         onLayout={onLayoutHandler}
         onUserLocationChange={(locationChangedResult) => {
+          let newCoordinate = locationChangedResult.nativeEvent.coordinate;
           if (isNavigationStarted) {
             mapView.current.animateToRegion({
-              latitude: locationChangedResult.nativeEvent.coordinate.latitude,
-              longitude: locationChangedResult.nativeEvent.coordinate.longitude,
+              latitude: newCoordinate.latitude,
+              longitude: newCoordinate.longitude,
               latitudeDelta: 0.0,
               longitudeDelta: 0.0025,
             });
+            let distanceToNextWaypoint = getDistanceFromLatLonInKm(
+              Number(currentWaypoint.end_location.lat),
+              Number(currentWaypoint.end_location.lng),
+              Number(newCoordinate.latitude),
+              Number(newCoordinate.longitude)
+            );
+            if (distanceToNextWaypoint < minWaypointDistance) {
+              if (directions.length - 1 > currentWaypoint.id) {
+                setCurrentWaypoint(directions[currentWaypoint.id + 1]);
+              } else {
+                console.log("Ziel erreicht");
+              }
+            }
           }
         }}
       >
@@ -103,7 +121,11 @@ function Map({ navigation, route }) {
           strokeWidth={5}
           strokeColor="green"
           onReady={(result) => {
-            setDirections(addIncreasingIDsToArray(result.legs[0].steps));
+            let loadedDirections = addIncreasingIDsToArray(
+              result.legs[0].steps
+            );
+            setDirections(loadedDirections);
+            setCurrentWaypoint(loadedDirections[0]);
             setPickedRoute({
               ...pickedRoute,
               duration: result.legs[0].duration.text,
@@ -126,7 +148,10 @@ function Map({ navigation, route }) {
       </MapView>
       {isNavigationStarted && (
         <View style={styles.directionsContainer}>
-          <DirectionsList directions={directions}></DirectionsList>
+          <DirectionsList
+            directions={directions}
+            currentWaypoint={currentWaypoint}
+          ></DirectionsList>
         </View>
       )}
     </View>

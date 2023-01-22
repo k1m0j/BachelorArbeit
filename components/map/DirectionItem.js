@@ -1,8 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
 
-function DirectionItem({ direction }) {
+function DirectionItem({ direction, selected }) {
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, selected && { backgroundColor: "lightgreen" }]}
+    >
       <View style={styles.textContainer}>
         <Text>{direction.id + 1}.</Text>
       </View>
@@ -23,7 +25,7 @@ export default DirectionItem;
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    backgroundColor: "lightgreen",
+    backgroundColor: "grey",
     marginVertical: 5,
     padding: 10,
     borderRadius: 20,
