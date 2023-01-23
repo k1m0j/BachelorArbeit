@@ -5,7 +5,12 @@ import MapViewDirections from "react-native-maps-directions";
 
 import RouteInfo from "../components/map/RouteInfo";
 import IconButton from "../components/ui/IconButton";
-import { GOOGLE_API_KEY, minWaypointDistance } from "../constants/constants";
+import {
+  GOOGLE_API_KEY,
+  minWaypointDistance,
+  NAVIGATION_PITCH,
+  NAVIGATION_ZOOM,
+} from "../constants/constants";
 import { RoutesContext } from "../store/routes-context";
 import Button from "../components/ui/Button";
 import DirectionsList from "../components/map/DirectionsList";
@@ -72,6 +77,34 @@ function Map({ navigation, route }) {
     setIsNavigationStarted(true);
   }
 
+  function animateCameraToUser(newCoordinate) {
+    mapView.current.animateCamera({
+      center: {
+        latitude: newCoordinate.latitude,
+        longitude: newCoordinate.longitude,
+      },
+      heading: newCoordinate.heading,
+      zoom: NAVIGATION_ZOOM,
+      pitch: NAVIGATION_PITCH,
+    });
+  }
+
+  function calcDistanceToNextWaypoint(newCoordinate) {
+    let distanceToNextWaypoint = getDistanceFromLatLonInKm(
+      Number(currentWaypoint.end_location.lat),
+      Number(currentWaypoint.end_location.lng),
+      Number(newCoordinate.latitude),
+      Number(newCoordinate.longitude)
+    );
+    if (distanceToNextWaypoint < minWaypointDistance) {
+      if (directions.length - 1 > currentWaypoint.id) {
+        setCurrentWaypoint(directions[currentWaypoint.id + 1]);
+      } else {
+        console.log("Ziel erreicht");
+      }
+    }
+  }
+
   return (
     <View style={styles.container}>
       <RouteInfo pickedRoute={pickedRoute}></RouteInfo>
@@ -91,25 +124,8 @@ function Map({ navigation, route }) {
         onUserLocationChange={(locationChangedResult) => {
           let newCoordinate = locationChangedResult.nativeEvent.coordinate;
           if (isNavigationStarted) {
-            mapView.current.animateToRegion({
-              latitude: newCoordinate.latitude,
-              longitude: newCoordinate.longitude,
-              latitudeDelta: 0.0,
-              longitudeDelta: 0.0025,
-            });
-            let distanceToNextWaypoint = getDistanceFromLatLonInKm(
-              Number(currentWaypoint.end_location.lat),
-              Number(currentWaypoint.end_location.lng),
-              Number(newCoordinate.latitude),
-              Number(newCoordinate.longitude)
-            );
-            if (distanceToNextWaypoint < minWaypointDistance) {
-              if (directions.length - 1 > currentWaypoint.id) {
-                setCurrentWaypoint(directions[currentWaypoint.id + 1]);
-              } else {
-                console.log("Ziel erreicht");
-              }
-            }
+            animateCameraToUser(newCoordinate);
+            calcDistanceToNextWaypoint(newCoordinate);
           }
         }}
       >
