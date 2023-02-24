@@ -122,8 +122,8 @@ function Map({ navigation, route }) {
         rotateEnabled={true}
         onLayout={onLayoutHandler}
         onUserLocationChange={(locationChangedResult) => {
-          let newCoordinate = locationChangedResult.nativeEvent.coordinate;
           if (isNavigationStarted) {
+            let newCoordinate = locationChangedResult.nativeEvent.coordinate;
             animateCameraToUser(newCoordinate);
             calcDistanceToNextWaypoint(newCoordinate);
           }
