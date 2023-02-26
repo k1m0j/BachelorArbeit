@@ -1,4 +1,4 @@
-import { StyleSheet, Text, Image, TextInput, View } from "react-native";
+import { StyleSheet, Text, Image, TextInput, View, Alert } from "react-native";
 import { useEffect, useState } from "react";
 
 import { getCoordinates, getMapPreview } from "../../util/location";
@@ -8,7 +8,18 @@ function LocationForm({ type, onSubmit }) {
   const [pickedLocation, setPickedLocation] = useState();
 
   async function onSumbitLocationHandler() {
-    const coordinates = await getCoordinates(locationName);
+    const coordinates = await getCoordinates(locationName).catch((_) =>
+      Alert.alert(
+        "Invalid Input",
+        "Please check if you have entered a valid " + type,
+        [
+          {
+            text: "Okay",
+            style: "default",
+          },
+        ]
+      )
+    );
 
     const formattedCoordinates = {
       latitude: coordinates.lat,
